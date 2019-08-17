@@ -1,4 +1,5 @@
 from django.urls import include, path
+from django.conf.urls import url
 from .views import stub_view
 from .views import list_view
 from .views import detail_view
@@ -18,5 +19,6 @@ urlpatterns = [
         detail_view,
         name="blog_detail"),
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^accounts/', include('allauth.urls')),
 ]
