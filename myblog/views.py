@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import loader
-from myblog.models import Post
+from myblog.models import Post, Category
+from myblog.forms import PostModelForm
+
+from rest_framework import viewsets
+from .serializers import post_serializer, category_serializer
 
 def stub_view(request, *args, **kwargs):
     body = "Stub View\n\n"
@@ -27,3 +31,11 @@ def detail_view(request, post_id):
         raise Http404
     context = {'post': post}
     return render(request, 'detail.html', context)
+
+class post_view(viewsets.ModelViewSet):
+    queryset = Post.objects.order_by('-created_date')
+    serializer_class = post_serializer
+
+class category_view(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = category_serializer
